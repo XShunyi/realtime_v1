@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/realtile-common/realtile-common.iml" filepath="$PROJECT_DIR$/realtile-common/realtile-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/realtime-dim/realtime-dim.iml" filepath="$PROJECT_DIR$/realtime-dim/realtime-dim.iml" />
+      <module fileurl="file://$PROJECT_DIR$/realtime-dwd/realtime-dwd.iml" filepath="$PROJECT_DIR$/realtime-dwd/realtime-dwd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/realtime-dws/realtime-dws.iml" filepath="$PROJECT_DIR$/realtime-dws/realtime-dws.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/realtime_v1.iml" filepath="$PROJECT_DIR$/.idea/realtime_v1.iml" />
+    </modules>
+  </component>
+</project>
