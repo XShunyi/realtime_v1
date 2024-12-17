@@ -33,7 +33,7 @@ public class FlinkSinkUtil {
                 .setTransactionalIdPrefix("bw-" + topicName + System.currentTimeMillis())
                 .setProperty("transaction.timeout.ms", 15 * 60 * 1000 + "")
                 .build();
-
+//asd
     }
 
     public static KafkaSink<Tuple2<JSONObject, TableProcessDwd>> getDwdKafkaSink(){

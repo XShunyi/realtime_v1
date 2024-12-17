@@ -13,6 +13,8 @@
         <module>realtime-dwd</module>
         <module>realtime-dws</module>
         <module>realtile-common</module>
+        <module>gmall_api</module>
+        <module>gmall_api</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
