@@ -65,18 +65,19 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
+            <version>1.2.70</version>
         </dependency>
         <!--  Flink 流批一体 Stream 写入HDFS 并指定ORC的存储格式 -->
         <!--        <dependency>-->
         <!--            <groupId>org.apache.flink</groupId>-->
         <!--            <artifactId>flink-orc</artifactId>-->
         <!--        </dependency>-->
-        <dependency>
-            <groupId>com.alibaba.hologres</groupId>
-            <artifactId>hologres-connector-flink-1.17</artifactId>
-            <version>1.4.2</version>
-            <classifier>jar-with-dependencies</classifier>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.hologres</groupId>-->
+<!--            <artifactId>hologres-connector-flink-1.17</artifactId>-->
+<!--            <version>1.4.2</version>-->
+<!--            <classifier>jar-with-dependencies</classifier>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
