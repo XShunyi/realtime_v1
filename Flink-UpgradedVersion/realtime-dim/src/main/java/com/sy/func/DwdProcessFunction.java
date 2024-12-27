@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sy.domain.TableProcessDwd;
 import com.sy.util.ConfigUtils;
 import com.sy.util.JdbcUtils;
+import com.sy.util.KafkaUtils;
 import org.apache.flink.api.common.state.BroadcastState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.common.state.ReadOnlyBroadcastState;
@@ -13,6 +14,7 @@ import org.apache.flink.streaming.api.functions.co.BroadcastProcessFunction;
 import org.apache.flink.util.Collector;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,19 +62,37 @@ public class DwdProcessFunction extends BroadcastProcessFunction<JSONObject, Tab
 //        "ts_ms":1735126811131}
         String table = jsonObject.getJSONObject("source").getString("table");
 
-        TableProcessDwd tableProcessDwd = broadcastState.get(table);
+//        TableProcessDwd = broadcastState.get(table);
 
-
-            if(table!=null){
-                if(hashMap.get(table)!=null){
-                    //                    System.out.println(Tuple2.of(jsonObject, tableProcessDwd));
-//                System.out.println("hashMap.get(table)=="+hashMap.get(table));
-//                System.out.println("table=="+table);
-                    collector.collect(Tuple2.of(jsonObject, tableProcessDwd));
+        if(table!=null && hashMap.get(table)!=null){
+            if(hashMap.get(table).getSourceTable().equals(table)){
+                String op = jsonObject.getString("op");
+                if(!"d".equals(op)){
+                    String sinkTable = hashMap.get(table).getSinkTable();
+                    JSONObject jsonObject1 = new JSONObject();
+                    jsonObject1.put("op",op);
+                    jsonObject1.put("tableName",table);
+                    jsonObject1.put("data",jsonObject.getJSONObject("after"));
+                    ArrayList<JSONObject> list = new ArrayList<>();
+                    list.add(jsonObject1);
+                    KafkaUtils.sinkJson2KafkaMessage(sinkTable,list);
                 }
-            }else{
-                System.out.println("无数据");
+//                else{
+//                    String sinkTable = hashMap.get(table).getSinkTable();
+//                    JSONObject jsonObject1 = new JSONObject();
+//                    jsonObject1.put("op",op);
+//                    jsonObject1.put("tableName",table);
+//                    jsonObject1.put("data",jsonObject.getJSONObject("before"));
+//                    ArrayList<JSONObject> list = new ArrayList<>();
+//                    list.add(jsonObject1);
+//                    KafkaUtils.sinkJson2KafkaMessage(sinkTable,list);
+//                }
             }
+
+//        }else{
+//            System.out.println("错误数据，不显示");
+        }
+
 
     }
 

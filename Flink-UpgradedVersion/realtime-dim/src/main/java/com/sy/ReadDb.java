@@ -3,7 +3,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sy.domain.TableProcessDwd;
 import com.sy.func.DwdProcessFunction;
-import com.sy.func.Flink2Kafka;
+
 import com.sy.func.FlinkRKafka;
 import com.sy.func.FlinkRMysql;
 import com.sy.util.ConfigUtils;
@@ -12,7 +12,7 @@ import com.ververica.cdc.connectors.mysql.table.StartupOptions;
 import lombok.SneakyThrows;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FlatMapFunction;
-import org.apache.flink.api.common.functions.MapFunction;
+
 import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.connector.kafka.source.KafkaSource;
@@ -33,7 +33,7 @@ public class ReadDb {
     private static final String config_database = "mysql.config_database";
     private static final String user = "mysql.user";
     private static final String pwd = "mysql.pwd";
-    private static final String topic_dwd_db = "dwd_db";
+
 
 
     @SneakyThrows
@@ -48,7 +48,9 @@ public class ReadDb {
                 OffsetsInitializer.earliest()
         );
         DataStreamSource<String> stream_db = env.fromSource(kafkaSource, WatermarkStrategy.noWatermarks(), "kafkaSource");
-//        stream.print();
+//        stream_db.print("stream_db===>");
+
+
 
         // 进行数据清洗
         SingleOutputStreamOperator<JSONObject> clean_stream =stream_db.flatMap(new FlatMapFunction<String, JSONObject>() {
@@ -75,8 +77,10 @@ public class ReadDb {
         DataStreamSource<String> stream_config = env.fromSource(mySqlSource, WatermarkStrategy.noWatermarks(), "mySqlSource");
 //        stream_config.print("stream_config===>");
 
+
         // 过滤数据
-        SingleOutputStreamOperator<TableProcessDwd> clean_config = stream_config.flatMap(new FlatMapFunction<String, TableProcessDwd>() {
+        SingleOutputStreamOperator<TableProcessDwd> clean_config;
+        clean_config = stream_config.flatMap(new FlatMapFunction<String, TableProcessDwd>() {
             @Override
             public void flatMap(String s, Collector<TableProcessDwd> collector) {
                 JSONObject jsonObject = JSON.parseObject(s);
@@ -106,18 +110,18 @@ public class ReadDb {
         process.print("process===>");
 
         // 转换格式类型
-        SingleOutputStreamOperator<String> data = process.map(new MapFunction<Tuple2<JSONObject, TableProcessDwd>, String>() {
-            @Override
-            public String map(Tuple2<JSONObject, TableProcessDwd> s) {
-                String toString = s.f0.toString();
-                return JSON.parseObject(toString).toJSONString();
-            }
-        }).uid("to_jsonString").name("to_jsonString");
-        data.print("data===>");
+//        SingleOutputStreamOperator<String> data;
+//        data = process.map(new MapFunction<Tuple2<JSONObject, TableProcessDwd>, String>() {
+//            @Override
+//            public String map(Tuple2<JSONObject, TableProcessDwd> s) {
+//                String toString = s.f0.toString();
+//                return JSON.parseObject(toString).toJSONString();
+//            }
+//        }).uid("to_jsonString").name("to_jsonString");
+//        data.print("data===>");
 
         // 发送到kafka
-        data.sinkTo(Flink2Kafka.getSinkKafka(topic_dwd_db));
-
+//        data.sinkTo(Flink2Kafka.getSinkKafka(topic_dwd_db));
 
         env.execute();
     }

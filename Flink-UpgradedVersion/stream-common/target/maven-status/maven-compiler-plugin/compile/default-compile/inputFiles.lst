@@ -1,4 +1,7 @@
+D:\shixun\Flink-UpgradedVersion\stream-common\src\main\java\com\sy\domain\TableProcessDwd.java
 D:\shixun\Flink-UpgradedVersion\stream-common\src\main\java\com\sy\util\HbaseUtils.java
 D:\shixun\Flink-UpgradedVersion\stream-common\src\main\java\com\sy\util\JdbcUtils.java
+D:\shixun\Flink-UpgradedVersion\stream-common\src\main\java\com\sy\util\DateFormatUtil.java
+D:\shixun\Flink-UpgradedVersion\stream-common\src\main\java\com\sy\util\KafkaUtils.java
 D:\shixun\Flink-UpgradedVersion\stream-common\src\main\java\com\sy\domain\TableProcessDim.java
 D:\shixun\Flink-UpgradedVersion\stream-common\src\main\java\com\sy\util\ConfigUtils.java
