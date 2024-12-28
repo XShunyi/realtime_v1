@@ -14,6 +14,7 @@ mysql.url=jdbc:mysql://cdh03:3306?useSSL=false
 zookeeper.server.host.list=cdh01:2181,cdh02:2181,cdh03:2181
 # Hbase
 hbase.namespace=gmall
+hbase.zookeeper_quorum=cdh01
 # Kafka
 Kafka.bootstrap.servers=cdh01:9092
 # Flink
